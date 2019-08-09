@@ -6,7 +6,7 @@ Topological Data Analysis](https://arxiv.org/abs/1802.04852).
 
 ## Installation
 
-```python
+```
 pip install perscode
 ```
 
