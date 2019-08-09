@@ -4,6 +4,12 @@ perscode
 Vectorization methods for persistence diagrams based in the paper [Persistence Codebooks for
 Topological Data Analysis](https://arxiv.org/abs/1802.04852).
 
+## Installation
+
+```python
+pip install perscode
+```
+
 ## Usage
 
 ```python
@@ -41,3 +47,4 @@ spvlad_diagrams = spvlad.transform(diagrams)
 - [x] Implement sPVLAD
 - [ ] Implement PFV
 - [x] Implement optional weighted subsampling to wPBoW, sPBoW, sPVLAD classes.
+- [ ] Proper documentation

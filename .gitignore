@@ -1,1 +1,4 @@
 perscode/__pycache__
+perscode.egg-info
+dist
+build
