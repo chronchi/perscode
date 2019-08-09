@@ -17,7 +17,11 @@ class wPBoW(TransformerMixin):
     Parameters
     -----------
     N : Length of codebook (length of vector)
-
+    n_subsample : Number of points to be subsampled when calculating GMMs
+    normalize : if set to True normalizes each vectorized persistence diagram with respect
+                to the euclidean norm
+    cluster_centers : list or numpy array of 2d vectors representing the cluster centers. The
+                      length of the list should be equal to N.
 
     Usage
     -----------
@@ -27,6 +31,7 @@ class wPBoW(TransformerMixin):
     >>> # number of points to be subsampled
     >>> n_subsample = 10
     >>> wpbow = perscode.wPBoW(N = length_codebook, n_subsample = 10)
+    >>> wpbow_diagrams = wpbow.transform(diagrams) # diagrams is a list of persistence diagrams
 
     """
     def __init__(

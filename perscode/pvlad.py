@@ -17,6 +17,11 @@ class PVLAD(TransformerMixin):
     Parameters
     -----------
     N : Length of codebook (length of vector)
+    n_subsample : Number of points to be subsampled when calculating GMMs
+    normalize : if set to True normalizes each vectorized persistence diagram with respect
+                to the euclidean norm
+    cluster_centers : list or numpy array of 2d vectors representing the cluster centers. The
+                      length of the list should be equal to N.
 
 
     Usage
@@ -25,6 +30,7 @@ class PVLAD(TransformerMixin):
     >>> # define length of codebook
     >>> length_codebook = 10
     >>> pvlad = perscode.PVLAD(N = length_codebook)
+    >>> pvlad_diagrams = pvlad.transform(diagrams) # diagrams is a list of persistence diagrams
 
     """
     def __init__(

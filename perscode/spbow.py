@@ -18,6 +18,14 @@ class sPBoW(TransformerMixin):
     Parameters
     -----------
     N : Length of codebook (length of vector)
+    n_subsample : Number of points to be subsampled when calculating GMMs
+    normalize : if set to True normalizes each vectorized persistence diagram with respect
+                to the euclidean norm
+    means_ : list or numpy array of 2d vectors representing the means of gaussian models
+    weights_ : list or numpy array of values representing the weights of gaussian models
+    covariances_ : list or numpy array of matrices representing the covariance matrices of gaussian
+                   models
+
 
 
     Usage
@@ -27,8 +35,8 @@ class sPBoW(TransformerMixin):
     >>> length_codebook = 10
     >>> # number of points to be subsampled to calculate the gaussian mixtures
     >>> n_subsample = 10
-    >>> pbow = perscode.sPBoW(N = length_codebook, n_subsample = 10)
-
+    >>> spbow = perscode.sPBoW(N = length_codebook, n_subsample = 10)
+    >>> spbow_diagrams = spbow.transform(diagrams) # diagrams is a list of persistence diagrams
     """
     def __init__(
         self,
