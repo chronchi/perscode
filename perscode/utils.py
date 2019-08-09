@@ -77,3 +77,11 @@ def _calcparameters(self):
     # add to class
     self.determinants_ = np.array(determinants_)
     self.inverse_matrices_ = np.array(inverse_matrices_)
+
+def _sumallweights(self, point):
+    """
+    Calculate the dot product between all gaussian values in a specific point and their respective
+    weights
+    """
+    all_gaussian_weights = np.array([_gaussianweights(self, point, i) for i in range(self.N)])
+    return np.dot(self.weights_, all_gaussian_weights)

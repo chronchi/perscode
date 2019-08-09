@@ -8,9 +8,9 @@ from sklearn.cluster import KMeans
 
 from .utils import to_landscape, _consolidate, _distanceclustercenter
 
-__all__ = ['PBoW']
+__all__ = ['PVLAD']
 
-class PBoW(TransformerMixin):
+class PVLAD(TransformerMixin):
     """ Initialize a Persistence Bag of Words generator.
 
 
@@ -24,7 +24,7 @@ class PBoW(TransformerMixin):
     >>> import perscode
     >>> # define length of codebook
     >>> length_codebook = 10
-    >>> pbow = perscode.PBoW(N = length_codebook)
+    >>> pvlad = perscode.PVLAD(N = length_codebook)
 
     """
     def __init__(
@@ -35,7 +35,7 @@ class PBoW(TransformerMixin):
         ):
         # size of codebook
         self.N = N
-        # whether normalize or not the pbow vector
+        # whether normalize or not the pvlad vector
         self.normalize = normalize
         # cluster centers to be used as codewords
         self.cluster_centers = cluster_centers
@@ -71,7 +71,7 @@ class PBoW(TransformerMixin):
         landscapes = [to_landscape(dg) for dg in dgs]
 
         # calculate cluster centers
-        if self.cluster_centers == None:
+        if not isinstance(self.cluster_centers, list):
             self._getclustercenters(landscapes)
         else:
             # check if cluster centers is of same size of codewords if cluster_center != None
@@ -79,27 +79,29 @@ class PBoW(TransformerMixin):
                 raise Exception('The number of cluster centers is not compatible with N, the\
                                 number of codewords')
 
-        pbows = [self._transform(dgm) for dgm in landscapes]
+        pvlads = [self._transform(dgm) for dgm in landscapes]
 
         # Make sure we return one item.
         if singular:
-            pbows = pbows[0]
+            pvlads = pvlads[0]
 
-        return pbows
+        return pvlads
 
     def _transform(self, landscape):
         """
-        Calculate the persistence bag of words vector for the specified landscape
+        Calculate the persistence vlad for the specified landscape
         """
-        pbow_landscape = np.zeros(self.N)
+        pvlad_landscape = np.zeros(2 * self.N)
 
         for point in landscape:
-            pbow_landscape[_distanceclustercenter(self, point)] += 1
+            ithcluster = _distanceclustercenter(self, point)
+            pvlad_landscape[(2 * ithcluster):(2 * ithcluster + 2)] = point -\
+                                                self.cluster_centers[ithcluster]
 
         if self.normalize:
-            return pbow_landscape/np.linalg.norm(pbow_landscape)
+            return pvlad_landscape/np.linalg.norm(pvlad_landscape)
         else:
-            return pbow_landscape
+            return pvlad_landscape
 
     def _getclustercenters(self, landscapes):
         """
